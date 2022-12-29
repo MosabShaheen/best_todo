@@ -1,7 +1,5 @@
 #! /usr/bin/env node
 import inquirer from "inquirer";
-// create a welcome message
-// create a list of todo
 function welcome() {
     console.clear();
     console.log("***********************\n");
@@ -18,7 +16,7 @@ async function todo() {
         {
             name: "option_todo",
             type: "list",
-            choices: ["Add Task", "View Task", "Update Task", "Remove Task", "Complete Task", "Exit"],
+            choices: ["Add Task", "View Task", "Update Task", "Remove Task", "Complete Task", "Task Status", "Exit"],
             message: "What you want to do: "
         }
     ]);
@@ -91,14 +89,17 @@ async function todo() {
                     {
                         name: "title_update",
                         type: "input",
-                        message: "Update your Title: "
+                        message: "Update your Title: ",
+                        default() {
+                            return listTitle[k];
+                        }
                     },
                     {
                         name: "description_update",
                         type: "input",
                         message: "Update your Description: ",
                         default() {
-                            return " ";
+                            return listDescription[k];
                         }
                     }
                 ]);
@@ -171,6 +172,30 @@ async function todo() {
                 }
             }
         }
+    }
+    else if (ask_todo.option_todo == "Task Status") {
+        do {
+            console.clear();
+            welcome();
+            console.log("*** Your Tasks ***\n");
+            let view_todo = await inquirer.prompt([
+                {
+                    name: "view_todo",
+                    type: "rawlist",
+                    choices: [...listTitle],
+                    message: "Select Task For Status View: ",
+                },
+            ]);
+            console.clear();
+            welcome();
+            console.log("*** Your Tasks Status***\n");
+            for (let l = 0; l <= listTitle.length; l++) {
+                if (view_todo.view_todo == listTitle[l]) {
+                    console.log(`Status: ${status[l]}\n`);
+                }
+            }
+            await back();
+        } while (back_to);
     }
     else if (ask_todo.option_todo == "Exit") {
         fwhile = false;
