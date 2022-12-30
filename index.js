@@ -177,22 +177,9 @@ async function todo() {
         do {
             console.clear();
             welcome();
-            console.log("*** Your Tasks ***\n");
-            let view_todo = await inquirer.prompt([
-                {
-                    name: "view_todo",
-                    type: "rawlist",
-                    choices: [...listTitle],
-                    message: "Select Task For Status View: ",
-                },
-            ]);
-            console.clear();
-            welcome();
-            console.log("*** Your Tasks Status***\n");
-            for (let l = 0; l <= listTitle.length; l++) {
-                if (view_todo.view_todo == listTitle[l]) {
-                    console.log(`Status: ${status[l]}\n`);
-                }
+            console.log("*** Your Task Status ***\n");
+            for (let l = 0; l < listTitle.length; l++) {
+                console.log(`${l + 1}) ${listTitle[l]}     Status: "${status[l]}"\n`);
             }
             await back();
         } while (back_to);
